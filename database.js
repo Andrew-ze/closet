@@ -204,6 +204,39 @@ function deleteProduct(id) {
   return result.changes > 0;
 }
 
+// ---- Order & payment helpers (for the admin dashboard) -----------------
+// Returns every order with its customer details and any payments attached,
+// newest first — this is what the admin Orders tab lists.
+function getAllOrdersForAdmin() {
+  const orders = db.prepare("SELECT * FROM orders ORDER BY created_at DESC").all();
+  const getCustomer = db.prepare("SELECT * FROM customers WHERE id = ?");
+  const getPayments = db.prepare("SELECT * FROM payments WHERE order_id = ? ORDER BY created_at DESC");
+
+  return orders.map((order) => ({
+    ...order,
+    items: JSON.parse(order.items_json),
+    customer: getCustomer.get(order.customer_id),
+    payments: getPayments.all(order.id)
+  }));
+}
+
+const ORDER_STATUSES = ["pending", "payment submitted", "confirmed", "shipped", "delivered", "cancelled"];
+const PAYMENT_STATUSES = ["awaiting confirmation", "confirmed", "failed"];
+
+function updateOrderStatus(id, status) {
+  if (!ORDER_STATUSES.includes(status)) return null;
+  const result = db.prepare("UPDATE orders SET status = ? WHERE id = ?").run(status, id);
+  if (result.changes === 0) return null;
+  return db.prepare("SELECT * FROM orders WHERE id = ?").get(id);
+}
+
+function updatePaymentStatus(id, status) {
+  if (!PAYMENT_STATUSES.includes(status)) return null;
+  const result = db.prepare("UPDATE payments SET status = ? WHERE id = ?").run(status, id);
+  if (result.changes === 0) return null;
+  return db.prepare("SELECT * FROM payments WHERE id = ?").get(id);
+}
+
 module.exports = {
   db,
   getProducts,
@@ -211,5 +244,10 @@ module.exports = {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getAllOrdersForAdmin,
+  updateOrderStatus,
+  updatePaymentStatus,
+  ORDER_STATUSES,
+  PAYMENT_STATUSES
 };
