@@ -173,6 +173,31 @@ app.post("/api/admin/upload", requireAdmin, (req, res) => {
 });
 
 // ---------------------------------------------------------------------
+// Admin: view and manage customer orders and payments
+// ---------------------------------------------------------------------
+app.get("/api/admin/orders", requireAdmin, (req, res) => {
+  res.json({
+    orders: getAllOrdersForAdmin(),
+    orderStatuses: ORDER_STATUSES,
+    paymentStatuses: PAYMENT_STATUSES
+  });
+});
+
+app.put("/api/admin/orders/:id/status", requireAdmin, (req, res) => {
+  const { status } = req.body || {};
+  const order = updateOrderStatus(req.params.id, status);
+  if (!order) return res.status(400).json({ error: "Could not update — check the order exists and the status is valid." });
+  res.json(order);
+});
+
+app.put("/api/admin/payments/:id/status", requireAdmin, (req, res) => {
+  const { status } = req.body || {};
+  const payment = updatePaymentStatus(req.params.id, status);
+  if (!payment) return res.status(400).json({ error: "Could not update — check the payment exists and the status is valid." });
+  res.json(payment);
+});
+
+// ---------------------------------------------------------------------
 // Static site (after admin route guards, so /admin/dashboard.html above wins)
 // ---------------------------------------------------------------------
 app.use(express.static(path.join(__dirname, "public")));
