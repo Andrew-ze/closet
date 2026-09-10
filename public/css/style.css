@@ -118,7 +118,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
   border-bottom: 1px solid var(--line);
 }
 .nav {
-  position: fixed;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
