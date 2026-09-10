@@ -209,7 +209,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
   position: relative;
   border-radius: 4px;
   overflow: auto;
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/5;
   background: var(--camel);
 }
 .hero-art img { width: 40%; height: 60%; object-fit: contain; }
