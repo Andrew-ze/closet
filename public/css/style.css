@@ -206,7 +206,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .hero p.lede { font-size: 1.12rem; color: #5a4636; }
 .hero-actions { display: flex; gap: 16px; margin-top: 28px; flex-wrap: wrap; }
 .hero-art {
-  position: relative;
+  position: fixed;
   border-radius: 4px;
   overflow: auto;
   aspect-ratio: 4/5;
