@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payments — Nakiah's Closet</title>
+<meta name="description" content="Complete payment for your Nakiah's Closet order by Mobile Money, bank transfer or cash on delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="/payment.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-header"></div>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="divider" style="margin-bottom:14px;"></div>
+    <h1>Payments</h1>
+    <p>Choose how you'd like to pay, then let us know so we can confirm your order.</p>
+  </section>
+
+  <section class="section">
+    <div class="container two-col-info">
+      <div>
+        <div class="order-summary" id="orderInfo" style="position:static;margin-bottom:24px;">
+          <h3>Order</h3>
+          <p class="empty-note">Loading…</p>
+        </div>
+
+        <h3 style="margin-bottom:14px;">Choose a payment method</h3>
+        <div class="pay-methods">
+          <button type="button" class="pay-tile" data-method="Mobile Money">
+            <h4>Mobile Money</h4>
+            <p>MTN or Airtel, send to our number</p>
+          </button>
+          <button type="button" class="pay-tile" data-method="Bank Transfer">
+            <h4>Bank Transfer</h4>
+            <p>Message us for account details</p>
+          </button>
+          <button type="button" class="pay-tile" data-method="Cash on Delivery">
+            <h4>Cash on Delivery</h4>
+            <p>Pay when your order arrives</p>
+          </button>
+        </div>
+        <div class="pay-instructions" id="payInstructions" style="display:none;"></div>
+      </div>
+
+      <form id="paymentForm" class="form-card">
+        <h3 style="margin-bottom:20px;">Confirm your payment</h3>
+        <input type="hidden" id="paymentMethod" name="paymentMethod">
+        <input type="hidden" id="orderIdField" name="orderIdField">
+        <input type="hidden" id="amountField" name="amountField">
+        <div class="form-row two">
+          <div>
+            <label for="payerName">Your name</label>
+            <input id="payerName" name="payerName" required placeholder="e.g. Aisha Namutebi">
+          </div>
+          <div>
+            <label for="payerPhone">Phone number used</label>
+            <input id="payerPhone" name="payerPhone" required placeholder="e.g. 07XXXXXXXX">
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="refField">Transaction ID / reference (if applicable)</label>
+          <input id="refField" name="transactionRef" placeholder="e.g. MM240912.1932.A12345">
+        </div>
+        <button type="submit" class="btn btn-gold" id="submitPaymentBtn" style="width:100%;justify-content:center;">Submit payment</button>
+        <p class="empty-note" style="margin-top:14px;">Rather speak to someone first? Message us on
+          <a href="https://wa.me/256703920448" target="_blank" rel="noopener" style="color:var(--gold-deep);font-weight:600;">WhatsApp</a>
+          or call <a href="tel:+256703920448" style="color:var(--gold-deep);font-weight:600;">+256 703 920 448</a>.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="/js/partials.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

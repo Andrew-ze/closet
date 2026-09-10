@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Online — Nakiah's Closet</title>
+<meta name="description" content="Confirm your selection and place your order with Nakiah's Closet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="/order.html">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-header"></div>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="divider" style="margin-bottom:14px;"></div>
+    <h1>Order Online</h1>
+    <p>Haven't chosen your pieces yet? <a href="/closet.html" style="color:var(--gold-deep);font-weight:600;">View the closet</a> first, then come back here to check out.</p>
+  </section>
+
+  <section class="section">
+    <div class="container two-col-info">
+      <form id="orderForm" class="form-card">
+        <h3 style="margin-bottom:20px;">Your details</h3>
+        <div class="form-row two">
+          <div>
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" required placeholder="e.g. Aisha Namutebi">
+          </div>
+          <div>
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" type="tel" required placeholder="e.g. 07XXXXXXXX">
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="email">Email (optional)</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com">
+        </div>
+        <div class="form-row">
+          <label for="address">Delivery address</label>
+          <textarea id="address" name="address" placeholder="District, town/area, and any landmarks"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="deliveryMethod">Delivery method</label>
+          <select id="deliveryMethod" name="deliveryMethod">
+            <option value="pickup">Pickup in Jinja</option>
+            <option value="local-delivery">Delivery within Jinja</option>
+            <option value="countrywide-courier">Countrywide courier</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="notes">Notes for us (sizing, colour preferences, etc.)</label>
+          <textarea id="notes" name="notes" placeholder="Optional"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" id="placeOrderBtn" style="width:100%;justify-content:center;">Place order</button>
+      </form>
+
+      <div class="order-summary" id="orderSummary">
+        <h3>Your selection</h3>
+        <p class="empty-note">Loading…</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="/js/partials.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

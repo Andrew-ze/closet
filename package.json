@@ -1,0 +1,20 @@
+{
+  "name": "nakiahs-closet",
+  "version": "1.0.0",
+  "description": "Nakiah's Closet - online store for modest Islamic womenswear",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "multer": "^2.0.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — Nakiah's Closet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  .admin-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px; border-bottom:1px solid var(--line); background:var(--paper);
+  }
+  .admin-wrap { max-width:1100px; margin:0 auto; padding:32px 24px 80px; }
+  .admin-grid { display:grid; grid-template-columns: 360px 1fr; gap:32px; align-items:start; }
+  @media (max-width: 900px) { .admin-grid { grid-template-columns: 1fr; } }
+  .admin-table { width:100%; border-collapse:collapse; background:var(--paper); border:1px solid var(--line); }
+  .admin-table th, .admin-table td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); font-size:0.9rem; vertical-align:middle; }
+  .admin-table th { background:var(--ivory); font-family:var(--font-body); font-weight:600; }
+  .admin-thumb { width:52px; height:66px; object-fit:cover; border-radius:2px; background:var(--camel); }
+  .row-actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .row-actions button { padding:6px 12px; font-size:0.8rem; border-radius:2px; border:1px solid var(--line); background:var(--ivory); cursor:pointer; }
+  .row-actions button.danger { border-color:#c76a4b; color:#b5502f; }
+  .row-actions button.primary { background:var(--gold); border-color:var(--gold); color:var(--bark); }
+  .pill { font-size:0.72rem; padding:3px 9px; border-radius:12px; background:var(--camel); color:var(--bark); }
+  .pill.off { background:#eee; color:#888; }
+  .file-input-wrap { border:1px dashed var(--line); border-radius:2px; padding:14px; text-align:center; font-size:0.85rem; color:#5a4636; }
+</style>
+</head>
+<body>
+<header class="admin-header">
+  <a href="/index.html" class="brand">Nakiah's <span>Closet</span> <span style="font-family:var(--font-body);font-size:0.7rem;color:#5a4636;font-style:normal;">admin</span></a>
+  <button id="logoutBtn" class="btn btn-outline" style="padding:9px 18px;">Log out</button>
+</header>
+
+<div class="admin-wrap">
+  <div id="topNotice"></div>
+  <div class="admin-grid">
+    <div class="form-card" id="formCard">
+      <h3 id="formTitle" style="margin-bottom:18px;">Add a new piece</h3>
+      <form id="productForm">
+        <input type="hidden" id="productId" value="">
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input id="name" name="name" required placeholder="e.g. Rose Gold Embroidered Abaya">
+        </div>
+        <div class="form-row">
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option>Abaya</option>
+            <option>Dera</option>
+            <option>Veil</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="price">Price (UGX)</label>
+          <input id="price" name="price" type="number" min="0" required placeholder="e.g. 180000">
+        </div>
+        <div class="form-row">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="A short description shown on the product card"></textarea>
+        </div>
+        <div class="form-row">
+          <label>Photo</label>
+          <div class="file-input-wrap">
+            <input type="file" id="imageFile" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+            <p style="margin:8px 0 0;">JPG, PNG or WEBP, up to 5MB. Leave empty to keep the current photo.</p>
+          </div>
+        </div>
+        <div class="form-row" style="display:flex;align-items:center;gap:10px;">
+          <input type="checkbox" id="available" checked style="width:auto;">
+          <label for="available" style="margin:0;">In stock / visible on the site</label>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button type="submit" class="btn btn-gold" id="submitBtn" style="flex:1;justify-content:center;">Add product</button>
+          <button type="button" class="btn btn-outline" id="cancelEditBtn" style="display:none;">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:16px;">Current catalogue</h3>
+      <div style="overflow-x:auto;">
+        <table class="admin-table">
+          <thead>
+            <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody id="productRows">
+            <tr><td colspan="6">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
