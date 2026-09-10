@@ -7,7 +7,7 @@ const STORE = {
   phone: "+256703920448",
   whatsapp: "256703920448", // international format, no leading +, no spaces
   tiktokHandle: "@Nakiahs closet",
-  tiktokUrl: "https://www.tiktok.com/@nakiahscloset",
+  tiktokUrl: "https://vm.tiktok.com/ZS9S5PRfMxuLX-wGF7I/",
   email: "hello@nakiahscloset.com"
 };
 
@@ -90,7 +90,7 @@ function renderFooter() {
       </div>
       <div class="footer-bottom">
         <span>&copy; <span id="year"></span> Nakiah's Closet. All rights reserved.</span>
-        <span>Jinja, Uganda</span>
+        <span>Kampala, Uganda</span>
       </div>
     </div>
   </footer>
