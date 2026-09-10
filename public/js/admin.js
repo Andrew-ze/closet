@@ -170,4 +170,137 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.textContent = originalText;
     }
   });
+
+  // ---- Tabs ----
+  document.querySelectorAll(".admin-tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".admin-tab-btn").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".admin-panel").forEach((p) => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(`panel-${btn.dataset.tab}`).classList.add("active");
+      if (btn.dataset.tab === "orders") loadOrders();
+    });
+  });
 });
+
+// ---------------------------------------------------------------------
+// Orders & payments
+// ---------------------------------------------------------------------
+function formatDate(iso) {
+  if (!iso) return "";
+  const d = new Date(iso.replace(" ", "T") + "Z");
+  return d.toLocaleString("en-UG", { dateStyle: "medium", timeStyle: "short" });
+}
+
+function statusOptions(list, current) {
+  return list
+    .map((s) => `<option value="${s}" ${s === current ? "selected" : ""}>${s}</option>`)
+    .join("");
+}
+
+async function loadOrders() {
+  const listEl = document.getElementById("ordersList");
+  const res = await fetch("/api/admin/orders");
+  if (res.status === 401) {
+    window.location.href = "/admin/login.html";
+    return;
+  }
+  const { orders, orderStatuses, paymentStatuses } = await res.json();
+
+  if (orders.length === 0) {
+    listEl.innerHTML = `<p class="empty-note">No orders yet — they'll show up here as soon as a customer checks out.</p>`;
+    return;
+  }
+
+  listEl.innerHTML = orders
+    .map((order) => {
+      const itemsHtml = order.items
+        .map((it) => `<li>${it.name} &times; ${it.qty} &mdash; ${formatUGX(it.price * it.qty)}</li>`)
+        .join("");
+
+      const paymentsHtml = order.payments.length
+        ? order.payments
+            .map(
+              (p) => `
+          <div class="payment-block">
+            <strong>${p.method}</strong> &mdash; ${formatUGX(p.amount)}<br>
+            Paid by: ${p.payer_name} (${p.payer_phone})<br>
+            ${p.transaction_ref ? `Reference: ${p.transaction_ref}<br>` : ""}
+            Submitted: ${formatDate(p.created_at)}<br>
+            Status:
+            <select class="status-select" data-payment-status="${p.id}">
+              ${statusOptions(paymentStatuses, p.status)}
+            </select>
+          </div>`
+            )
+            .join("")
+        : `<p class="empty-note" style="margin:0;">No payment submitted yet for this order.</p>`;
+
+      return `
+      <div class="order-card" data-order-id="${order.id}">
+        <div class="order-card-head">
+          <div>
+            <h4>Order #${order.id} &mdash; ${formatUGX(order.total_amount)}</h4>
+            <div class="order-meta">${formatDate(order.created_at)} &middot; ${order.delivery_method || "pickup"}</div>
+          </div>
+          <div>
+            <label style="font-size:0.8rem;color:#5a4636;">Order status</label><br>
+            <select class="status-select" data-order-status="${order.id}">
+              ${statusOptions(orderStatuses, order.status)}
+            </select>
+          </div>
+        </div>
+        <div class="order-cols">
+          <div>
+            <h5>Customer</h5>
+            <p style="margin:0 0 4px;"><strong>${order.customer?.full_name || "Unknown"}</strong></p>
+            <p style="margin:0 0 4px;">${order.customer?.phone || ""}</p>
+            ${order.customer?.email ? `<p style="margin:0 0 4px;">${order.customer.email}</p>` : ""}
+            ${order.customer?.address ? `<p style="margin:0 0 4px;">${order.customer.address}</p>` : ""}
+            ${order.notes ? `<p style="margin:8px 0 0;color:#5a4636;"><em>Note: ${order.notes}</em></p>` : ""}
+          </div>
+          <div>
+            <h5>Items</h5>
+            <ul class="order-items-list">${itemsHtml}</ul>
+            <h5 style="margin-top:14px;">Payment</h5>
+            ${paymentsHtml}
+          </div>
+        </div>
+      </div>`;
+    })
+    .join("");
+
+  listEl.querySelectorAll("[data-order-status]").forEach((select) => {
+    select.addEventListener("change", async () => {
+      const id = select.dataset.orderStatus;
+      const res = await fetch(`/api/admin/orders/${id}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: select.value })
+      });
+      if (res.ok) {
+        showTopNotice(`Order #${id} status updated.`, "success");
+      } else {
+        const data = await res.json();
+        showTopNotice(data.error || "Could not update order status.", "error");
+      }
+    });
+  });
+
+  listEl.querySelectorAll("[data-payment-status]").forEach((select) => {
+    select.addEventListener("change", async () => {
+      const id = select.dataset.paymentStatus;
+      const res = await fetch(`/api/admin/payments/${id}/status`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: select.value })
+      });
+      if (res.ok) {
+        showTopNotice("Payment status updated.", "success");
+      } else {
+        const data = await res.json();
+        showTopNotice(data.error || "Could not update payment status.", "error");
+      }
+    });
+  });
+}
