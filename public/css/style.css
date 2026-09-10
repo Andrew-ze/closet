@@ -96,6 +96,13 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* ---------- Top announcement bar ---------- */
+#site-header{
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 8px 12px;
+}
 .announce {
   background: var(--bark);
   color: var(--camel);
@@ -109,9 +116,6 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .site-header {
   background: var(--ivory);
   border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 40;
 }
 .nav {
   display: flex;
