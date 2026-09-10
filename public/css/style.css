@@ -208,8 +208,8 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .hero-art {
   position: relative;
   border-radius: 4px;
-  overflow: hidden;
-  aspect-ratio: 4/5;
+  overflow: auto;
+  aspect-ratio: 1/1;
   background: var(--camel);
 }
 .hero-art img { width: 40%; height: 60%; object-fit: contain; }
