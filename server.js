@@ -17,7 +17,12 @@ const {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getAllOrdersForAdmin,
+  updateOrderStatus,
+  updatePaymentStatus,
+  ORDER_STATUSES,
+  PAYMENT_STATUSES
 } = require("./database");
 
 const app = express();
