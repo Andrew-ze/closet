@@ -24,6 +24,7 @@ const {
   ORDER_STATUSES,
   PAYMENT_STATUSES
 } = require("./database");
+const { notifyNewOrder } = require("./notifications");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
