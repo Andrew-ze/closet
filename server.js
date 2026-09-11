@@ -263,6 +263,15 @@ app.post("/api/orders", (req, res) => {
       total,
       items: resolvedItems
     });
+
+    // Notify the admins (email + WhatsApp, whichever is configured). This
+    // is fire-and-forget — it must never delay or break the response
+    // already sent to the customer above.
+    notifyNewOrder({
+      order: { id: orderResult.lastInsertRowid, total },
+      customer: { fullName, phone, email, address, deliveryMethod, notes },
+      items: resolvedItems
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Could not save the order. Please try again." });
